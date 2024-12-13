@@ -1,0 +1,21 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      java: openjdk11
+    commands:
+      - echo Installing dependencies...
+      - mvn install
+  build:
+    commands:
+      - echo Building the project...
+      - mvn package
+  post_build:
+    commands:
+      - echo Build complete. Uploading artifacts to S3...
+      - aws s3 cp target/*.jar s3://my-maven-artifacts/
+
+artifacts:
+  files:
+    - target/*.jar
